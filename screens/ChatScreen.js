@@ -4,8 +4,8 @@ import { Avatar } from 'react-native-elements'
 import {AntDesign , SimpleLineIcons,Ionicons} from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import { auth, db } from '../firebase'
 import * as firebase from "firebase"
+import { auth, db } from '../firebase'
 const ChatScreen=({navigation,route})=>{
     const [input,setInput]=useState("")
     const [messages,setMessages]=useState([])
@@ -40,9 +40,8 @@ const ChatScreen=({navigation,route})=>{
     const sendMessage =()=>{
 
         Keyboard.dismiss();
-        if(input==="") return ;
         db.collection("chats").doc(route.params.id).collection("messages").add({
-            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+            timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
             displayName:auth.currentUser.displayName,
             email:auth.currentUser.email,
