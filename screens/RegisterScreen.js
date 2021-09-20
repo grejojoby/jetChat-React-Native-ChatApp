@@ -6,10 +6,10 @@ import {auth} from "../firebase"
 const RegisterScreen = ({ navigation }) => {
 
 
-    const [name, setName] = useState('gh');
-    const [email, setEmail] = useState('as2d1f@gmail.com');
+const [name, setName] = useState('Hayden');
+    const [email, setEmail] = useState('cordeirohayden@gmail.com');
     const [password, setPassword] = useState('123456');
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrl, setImageUrl] = useState("https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png");
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -20,11 +20,11 @@ const RegisterScreen = ({ navigation }) => {
         auth
         .createUserWithEmailAndPassword(email,password)
         .then((authUser)=>{
-                console.log(authUser)
-                authUser.user.updateProfile({
-                    displayName:name,
-                    photoURL:imageUrl || "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"
-                })
+            authUser.user.updateProfile({
+                displayName:name,
+                photoURL:imageUrl 
+            })
+            console.log(authUser.user)
         }).catch(error=>alert(error.message))
     }
 
