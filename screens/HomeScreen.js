@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
-import { Button, Input, Image } from "react-native-elements";
-import { StatusBar } from 'expo-status-bar';
-import { auth } from '../firebase';
+import {  ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import CustomListItem from '../components/CustomListItem.js';
 const HomeScreen = ({navigation}) => {
 
 
     return (
-        <View>
-            <Text>This is home</Text>
-        </View>
+        <SafeAreaView>
+            <ScrollView>
+             <CustomListItem></CustomListItem>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
