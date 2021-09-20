@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Text } from 'react-native-elements';
-
+import {auth} from "../firebase"
 const RegisterScreen = ({ navigation }) => {
 
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState('gh');
+    const [email, setEmail] = useState('as2d1f@gmail.com');
+    const [password, setPassword] = useState('123456');
     const [imageUrl, setImageUrl] = useState('');
 
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerBackTitle:"Login",
+        })
+    },[navigation])
     const register = () => {
-
+        auth
+        .createUserWithEmailAndPassword(email,password)
+        .then((authUser)=>{
+                console.log(authUser)
+                authUser.user.updateProfile({
+                    displayName:name,
+                    photoURL:imageUrl || "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"
+                })
+        }).catch(error=>alert(error.message))
     }
 
     return (
