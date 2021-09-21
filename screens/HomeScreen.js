@@ -16,16 +16,16 @@ const HomeScreen = ({navigation}) => {
         })
     }
     useEffect(()=>{
-        const unsubscribe=db.collection("chats").onSnapshot((snapshot)=>
-            setChats(snapshot.docs.map((doc)=>({
-                id:doc.id,
-                data:doc.data(),
-            }))
-            )
-            
-        );
+        const unsubscribe=db.collection(auth.currentUser.email).onSnapshot((snapshot)=>
+        setChats(snapshot.docs.map((doc)=>({
+            id:doc.id,
+            data:doc.data(),
+        }))
+        )
         
-        return unsubscribe
+    );
+    
+    return unsubscribe
     },[]);
     useLayoutEffect(()=>{
         navigation.setOptions({

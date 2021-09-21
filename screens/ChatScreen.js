@@ -40,7 +40,14 @@ const ChatScreen=({navigation,route})=>{
     const sendMessage =()=>{
 
         Keyboard.dismiss();
-        db.collection("chats").doc(route.params.id).collection("messages").add({
+        db.collection(auth.currentUser.email).doc(route.params.id).collection("messages").add({
+            timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
+            message:input,
+            displayName:auth.currentUser.displayName,
+            email:auth.currentUser.email,
+            photoURL:auth.currentUser.photoURL,
+        })
+        db.collection(route.params.id).doc(auth.currentUser.email).collection("messages").add({
             timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
             displayName:auth.currentUser.displayName,
@@ -52,16 +59,16 @@ const ChatScreen=({navigation,route})=>{
 
     }
     useLayoutEffect(()=>{
-        const unsubscribe=db.collection("chats").doc(route.params.id).
+        const unsubscribe=db.collection(auth.currentUser.email).doc(route.params.id).
         collection("messages").orderBy("timestamp","desc").onSnapshot(snapshot=>setMessages(
             snapshot.docs.map((doc)=>({
                 id:doc.id,
                 data:doc.data()
             }))
         ))
-        console.log(messages)
+        // console.log(messages)
 
-        return unsubscribe
+        // return unsubscribe
     },[route])
 
     return (
