@@ -6,9 +6,9 @@ import {auth} from "../firebase"
 const RegisterScreen = ({ navigation }) => {
 
 
-const [name, setName] = useState('Hayden');
-    const [email, setEmail] = useState('cordeirohayden@gmail.com');
-    const [password, setPassword] = useState('123456');
+const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [imageUrl, setImageUrl] = useState("https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png");
 
     useLayoutEffect(()=>{
