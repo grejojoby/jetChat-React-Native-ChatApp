@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState,useRef  } from 'react'
 import { View ,StyleSheet,Text, TouchableOpacity, TouchableWithoutFeedback,KeyboardAvoidingView, Platform, ScrollView, TextInput, Keyboard} from 'react-native'
 import { Avatar } from 'react-native-elements'
 import {AntDesign , SimpleLineIcons,Ionicons} from "@expo/vector-icons"
@@ -60,7 +60,7 @@ const ChatScreen=({navigation,route})=>{
     }
     useLayoutEffect(()=>{
         const unsubscribe=db.collection(auth.currentUser.email).doc(route.params.id).
-        collection("messages").orderBy("timestamp","desc").onSnapshot(snapshot=>setMessages(
+        collection("messages").orderBy("timestamp").onSnapshot(snapshot=>setMessages(
             snapshot.docs.map((doc)=>({
                 id:doc.id,
                 data:doc.data()
@@ -70,7 +70,7 @@ const ChatScreen=({navigation,route})=>{
 
         // return unsubscribe
     },[route])
-
+    const scrollViewRef = useRef();
     return (
         <SafeAreaView style={{ flex:1 ,backgroundColor:"white"}}>
         <StatusBar style="light" />
@@ -82,7 +82,10 @@ const ChatScreen=({navigation,route})=>{
             {/* onPress={Keyboard.dismiss()} */}
             <TouchableWithoutFeedback  >
         <>
-            <ScrollView>
+            <ScrollView
+            ref={scrollViewRef}
+            onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+            >
                 {messages.map(({id,data})=>(
                     data.email===auth.currentUser.email?
                     (
