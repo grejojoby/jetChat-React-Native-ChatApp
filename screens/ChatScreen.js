@@ -37,17 +37,18 @@ const ChatScreen=({navigation,route})=>{
         })
     },[navigation])
 
-    const sendMessage =()=>{
+    const sendMessage =async ()=>{
 
         Keyboard.dismiss();
-        db.collection(auth.currentUser.email).doc(route.params.id).collection("messages").add({
+        await db.collection(auth.currentUser.email).doc(route.params.id).collection("messages").add({
             timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
             displayName:auth.currentUser.displayName,
             email:auth.currentUser.email,
             photoURL:auth.currentUser.photoURL,
         })
-        db.collection(route.params.id).doc(auth.currentUser.email).collection("messages").add({
+        
+        await db.collection(route.params.id).doc(auth.currentUser.email).collection("messages").add({
             timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
             displayName:auth.currentUser.displayName,
@@ -132,6 +133,7 @@ const ChatScreen=({navigation,route})=>{
             </ScrollView>
             <View style={styles.footer}>
                 <TextInput placeholder="Signal Message"
+                value={input}
                 onChangeText={(text)=>setInput(text)}
                 style={styles.textInput}
                 onSubmitEditing={sendMessage}
