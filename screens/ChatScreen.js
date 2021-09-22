@@ -40,6 +40,8 @@ const ChatScreen=({navigation,route})=>{
     const sendMessage =async ()=>{
 
         Keyboard.dismiss();
+
+        // add to messages collection
         await db.collection(auth.currentUser.email).doc(route.params.id).collection("messages").add({
             timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
@@ -49,6 +51,21 @@ const ChatScreen=({navigation,route})=>{
         })
         
         await db.collection(route.params.id).doc(auth.currentUser.email).collection("messages").add({
+            timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
+            message:input,
+            displayName:auth.currentUser.displayName,
+            email:auth.currentUser.email,
+            photoURL:auth.currentUser.photoURL,
+        })
+        // add last chat
+        await  db.collection(auth.currentUser.email).doc(route.params.id).update({
+            timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
+            message:input,
+            displayName:auth.currentUser.displayName,
+            email:auth.currentUser.email,
+            photoURL:auth.currentUser.photoURL,
+        })
+        await  db.collection(route.params.id).doc(auth.currentUser.email).update({
             timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
             displayName:auth.currentUser.displayName,

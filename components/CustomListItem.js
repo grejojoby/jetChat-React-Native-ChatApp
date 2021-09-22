@@ -3,7 +3,7 @@ import { View ,StyleSheet,Text} from 'react-native'
 import { Avatar } from 'react-native-elements'
 import { ListItem } from 'react-native-elements'
 
-const CustomListItem=({id,chatName,chatImg,enterChat})=>{
+const CustomListItem=({id,chatName,chatImg,enterChat,message})=>{
     return (
        <ListItem key={id} onPress={()=>enterChat(id,chatName,chatImg)}>
            <Avatar
@@ -17,7 +17,7 @@ const CustomListItem=({id,chatName,chatImg,enterChat})=>{
                   {chatName}
                </ListItem.Title>
                <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-                   This is a test subtitle
+                   {message}
                </ListItem.Subtitle>
            </ListItem.Content>
        </ListItem>

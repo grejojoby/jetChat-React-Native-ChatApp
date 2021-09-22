@@ -37,7 +37,8 @@ const HomeScreen = ({navigation}) => {
             data:doc.data(),
         }))
         )
-    );
+        );
+        console.log(chats)
 
     
     return unsubscribe
@@ -52,10 +53,7 @@ const HomeScreen = ({navigation}) => {
     }
     setUsersD(d)
     },[users])
-    useEffect(()=>{
-        console.log(usersD)
-      
-        },[usersD])
+
     
 
     useLayoutEffect(()=>{
@@ -106,7 +104,8 @@ const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
-                {chats.map(({id,data:{chatName}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} 
+                {chats.map(({id,data:{chatName,message}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} 
+                message={message}
                 chatImg={usersD[chatName]?usersD[chatName]:"https://robohash.org/"+chatName}/>
                     
                 )}
