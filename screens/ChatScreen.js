@@ -64,7 +64,8 @@ const ChatScreen=({navigation,route})=>{
             displayName:auth.currentUser.displayName,
             email:auth.currentUser.email,
             photoURL:auth.currentUser.photoURL,
-            seen:false
+            seen:false,
+            notify:false
         })
         
         setInput("")
@@ -85,7 +86,8 @@ const ChatScreen=({navigation,route})=>{
 
     useEffect(()=>{
          db.collection(auth.currentUser.email).doc(route.params.id).update({
-            seen:true
+            seen:true,
+            notify:true
         })
 
     },[messages])
