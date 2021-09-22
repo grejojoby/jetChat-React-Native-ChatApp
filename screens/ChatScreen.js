@@ -58,19 +58,13 @@ const ChatScreen=({navigation,route})=>{
             photoURL:auth.currentUser.photoURL,
         })
         // add last chat
-        await  db.collection(auth.currentUser.email).doc(route.params.id).update({
-            timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
-            message:input,
-            displayName:auth.currentUser.displayName,
-            email:auth.currentUser.email,
-            photoURL:auth.currentUser.photoURL,
-        })
         await  db.collection(route.params.id).doc(auth.currentUser.email).update({
             timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
             displayName:auth.currentUser.displayName,
             email:auth.currentUser.email,
             photoURL:auth.currentUser.photoURL,
+            seen:false
         })
         
         setInput("")
@@ -88,6 +82,13 @@ const ChatScreen=({navigation,route})=>{
 
         // return unsubscribe
     },[route])
+
+    useEffect(()=>{
+         db.collection(auth.currentUser.email).doc(route.params.id).update({
+            seen:true
+        })
+
+    },[messages])
     const scrollViewRef = useRef();
     return (
         <SafeAreaView style={{ flex:1 ,backgroundColor:"white"}}>

@@ -104,8 +104,8 @@ const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
-                {chats.map(({id,data:{chatName,message}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} 
-                message={message}
+                {chats.map(({id,data:{chatName,message,seen}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} 
+                message={message} seen={seen}
                 chatImg={usersD[chatName]?usersD[chatName]:"https://robohash.org/"+chatName}/>
                     
                 )}
