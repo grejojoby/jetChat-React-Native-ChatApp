@@ -9,7 +9,7 @@ const RegisterScreen = ({ navigation }) => {
 const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [imageUrl, setImageUrl] = useState("https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png");
+    const [imageUrl, setImageUrl] = useState("");
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -17,15 +17,18 @@ const [name, setName] = useState('');
         })
     },[navigation])
     const register = () => {
+        if(imageUrl==""){
+           setImageUrl("https://robohash.org/"+email) 
+        }
         auth
         .createUserWithEmailAndPassword(email,password)
         .then((authUser)=>{
             authUser.user.updateProfile({
                 displayName:name,
-                photoURL:imageUrl 
+                photoURL:imageUrl===""?"https://robohash.org/"+email: imageUrl
             })
             db.collection("users").doc(email).set({
-                photoURL:imageUrl
+                photoURL:imageUrl===""?"https://robohash.org/"+email: imageUrl
             })
             // console.log(authUser.user)
         }).catch(error=>alert(error.message))

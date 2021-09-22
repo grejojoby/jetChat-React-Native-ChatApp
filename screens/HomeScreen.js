@@ -69,7 +69,10 @@ const HomeScreen = ({navigation}) => {
                 <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
                 <Avatar
                 rounded
-                source={{uri:auth?.currentUser?.photoURL?auth?.currentUser?.photoURL:"https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"}}
+
+
+                source={{uri:(auth?.currentUser?.photoURL)?(auth?.currentUser?.photoURL):"https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"}}
+              
                 />
                 </TouchableOpacity>
                 
@@ -103,7 +106,8 @@ const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
-                {chats.map(({id,data:{chatName}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} chatImg={usersD[chatName]?usersD[chatName]:"https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"}/>
+                {chats.map(({id,data:{chatName}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} 
+                chatImg={usersD[chatName]?usersD[chatName]:"https://robohash.org/"+chatName}/>
                     
                 )}
          
