@@ -9,6 +9,8 @@ import {AntDesign , SimpleLineIcons} from "@expo/vector-icons"
 import CustomListItem from '../components/CustomListItem.js';
 const HomeScreen = ({navigation}) => {
     const [chats,setChats]=useState([]);
+    const [users,setUsers]=useState([]);
+    const [usersD,setUsersD]=useState({});
 
     const signOutUser=()=>{
         auth.signOut().then(()=>{
@@ -24,9 +26,38 @@ const HomeScreen = ({navigation}) => {
         )
         
     );
-    
     return unsubscribe
     },[]);
+    
+    useEffect(()=>{
+        
+        const unsubscribe=db.collection("users").onSnapshot((snapshot)=>
+        setUsers(snapshot.docs.map((doc)=>({
+            id:doc.id,
+            data:doc.data(),
+        }))
+        )
+    );
+
+    
+    return unsubscribe
+    
+    },[]);
+
+    useEffect(()=>{
+    // console.log(users)
+    var d={}
+    for(var i=0;i<users.length;i++){
+        d[users[i].id]=users[i].data.photoURL
+    }
+    setUsersD(d)
+    },[users])
+    useEffect(()=>{
+        console.log(usersD)
+      
+        },[usersD])
+    
+
     useLayoutEffect(()=>{
         navigation.setOptions({
             title:"joTok",
@@ -59,16 +90,20 @@ const HomeScreen = ({navigation}) => {
             </View>)
         });
     },[navigation])
-    const enterChat=(id,chatName)=>{
+    const enterChat=(id,chatName,chatImg)=>{
         navigation.navigate("Chat",{
             id,
-            chatName
+            chatName,
+            chatImg
         })
     }
+    // console.log(users)
+
+
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
-                {chats.map(({id,data:{chatName}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat}/>
+                {chats.map(({id,data:{chatName}})=> <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} chatImg={usersD[chatName]?usersD[chatName]:"https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"}/>
                     
                 )}
          

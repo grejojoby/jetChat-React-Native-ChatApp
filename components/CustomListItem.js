@@ -3,13 +3,13 @@ import { View ,StyleSheet,Text} from 'react-native'
 import { Avatar } from 'react-native-elements'
 import { ListItem } from 'react-native-elements'
 
-const CustomListItem=({id,chatName,enterChat})=>{
+const CustomListItem=({id,chatName,chatImg,enterChat})=>{
     return (
-       <ListItem key={id} onPress={()=>enterChat(id,chatName)}>
+       <ListItem key={id} onPress={()=>enterChat(id,chatName,chatImg)}>
            <Avatar
            rounded
            source={{
-               uri:"https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"
+               uri:chatImg
            }}
            />
            <ListItem.Content>

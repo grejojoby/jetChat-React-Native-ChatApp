@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Text } from 'react-native-elements';
-import {auth} from "../firebase"
+import {auth,db} from "../firebase"
 const RegisterScreen = ({ navigation }) => {
 
 
@@ -24,7 +24,10 @@ const [name, setName] = useState('');
                 displayName:name,
                 photoURL:imageUrl 
             })
-            console.log(authUser.user)
+            db.collection("users").doc(email).set({
+                photoURL:imageUrl
+            })
+            // console.log(authUser.user)
         }).catch(error=>alert(error.message))
     }
 
