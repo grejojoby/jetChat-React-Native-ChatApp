@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState,useRef  } from 'react'
 import { View ,StyleSheet,Text, TouchableOpacity, TouchableWithoutFeedback,KeyboardAvoidingView, Platform, ScrollView, TextInput, Keyboard} from 'react-native'
 import { Avatar } from 'react-native-elements'
 import {AntDesign , SimpleLineIcons,Ionicons} from "@expo/vector-icons"
@@ -20,7 +20,7 @@ const ChatScreen=({navigation,route})=>{
                 alignItems:"center"
             }}>
                 <Avatar rounded
-                source={{uri:"https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"}}
+                source={{uri:route.params.chatImg}}
                 />
                 <Text style={{color:"white",marginLeft:10,fontWeight:"700"}}>
                         {route.params.chatName}
@@ -37,10 +37,12 @@ const ChatScreen=({navigation,route})=>{
         })
     },[navigation])
 
-    const sendMessage =()=>{
+    const sendMessage =async ()=>{
 
         Keyboard.dismiss();
-        db.collection("chats").doc(route.params.id).collection("messages").add({
+
+        // add to messages collection
+        await db.collection(auth.currentUser.email).doc(route.params.id).collection("messages").add({
             timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
             message:input,
             displayName:auth.currentUser.displayName,
@@ -48,22 +50,48 @@ const ChatScreen=({navigation,route})=>{
             photoURL:auth.currentUser.photoURL,
         })
         
+        await db.collection(route.params.id).doc(auth.currentUser.email).collection("messages").add({
+            timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
+            message:input,
+            displayName:auth.currentUser.displayName,
+            email:auth.currentUser.email,
+            photoURL:auth.currentUser.photoURL,
+        })
+        // add last chat
+        await  db.collection(route.params.id).doc(auth.currentUser.email).update({
+            timestamp:firebase.firestore.FieldValue.serverTimestamp() || null,
+            message:input,
+            displayName:auth.currentUser.displayName,
+            email:auth.currentUser.email,
+            photoURL:auth.currentUser.photoURL,
+            seen:false,
+            notify:false
+        })
+        
         setInput("")
 
     }
     useLayoutEffect(()=>{
-        const unsubscribe=db.collection("chats").doc(route.params.id).
-        collection("messages").orderBy("timestamp","desc").onSnapshot(snapshot=>setMessages(
+        const unsubscribe=db.collection(auth.currentUser.email).doc(route.params.id).
+        collection("messages").orderBy("timestamp").onSnapshot(snapshot=>setMessages(
             snapshot.docs.map((doc)=>({
                 id:doc.id,
                 data:doc.data()
             }))
         ))
-        console.log(messages)
+        // console.log(messages)
 
-        return unsubscribe
+        // return unsubscribe
     },[route])
 
+    useEffect(()=>{
+         db.collection(auth.currentUser.email).doc(route.params.id).update({
+            seen:true,
+            notify:true
+        })
+
+    },[messages])
+    const scrollViewRef = useRef();
     return (
         <SafeAreaView style={{ flex:1 ,backgroundColor:"white"}}>
         <StatusBar style="light" />
@@ -75,7 +103,10 @@ const ChatScreen=({navigation,route})=>{
             {/* onPress={Keyboard.dismiss()} */}
             <TouchableWithoutFeedback  >
         <>
-            <ScrollView>
+            <ScrollView
+            ref={scrollViewRef}
+            onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+            >
                 {messages.map(({id,data})=>(
                     data.email===auth.currentUser.email?
                     (
@@ -122,6 +153,7 @@ const ChatScreen=({navigation,route})=>{
             </ScrollView>
             <View style={styles.footer}>
                 <TextInput placeholder="Signal Message"
+                value={input}
                 onChangeText={(text)=>setInput(text)}
                 style={styles.textInput}
                 onSubmitEditing={sendMessage}

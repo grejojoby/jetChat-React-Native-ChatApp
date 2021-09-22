@@ -2,14 +2,14 @@ import React, { useLayoutEffect, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Text } from 'react-native-elements';
-import {auth} from "../firebase"
+import {auth,db} from "../firebase"
 const RegisterScreen = ({ navigation }) => {
 
 
-const [name, setName] = useState('Hayden');
-    const [email, setEmail] = useState('cordeirohayden@gmail.com');
-    const [password, setPassword] = useState('123456');
-    const [imageUrl, setImageUrl] = useState("https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png");
+const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [imageUrl, setImageUrl] = useState("");
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -17,14 +17,20 @@ const [name, setName] = useState('Hayden');
         })
     },[navigation])
     const register = () => {
+        if(imageUrl==""){
+           setImageUrl("https://robohash.org/"+email) 
+        }
         auth
         .createUserWithEmailAndPassword(email,password)
         .then((authUser)=>{
             authUser.user.updateProfile({
                 displayName:name,
-                photoURL:imageUrl 
+                photoURL:imageUrl===""?"https://robohash.org/"+email: imageUrl
             })
-            console.log(authUser.user)
+            db.collection("users").doc(email).set({
+                photoURL:imageUrl===""?"https://robohash.org/"+email: imageUrl
+            })
+            // console.log(authUser.user)
         }).catch(error=>alert(error.message))
     }
 

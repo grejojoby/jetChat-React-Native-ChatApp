@@ -1,23 +1,47 @@
 import React from 'react'
 import { View ,StyleSheet,Text} from 'react-native'
-import { Avatar } from 'react-native-elements'
+import { Avatar ,Badge} from 'react-native-elements'
 import { ListItem } from 'react-native-elements'
+import {db,auth} from "../firebase"
+const CustomListItem=({id,chatName,chatImg,enterChat,message,seen,schedulePushNotification,notify})=>{
+    const temp=async(chatName,message)=>{
 
-const CustomListItem=({id,chatName,enterChat})=>{
+        console.log(chatName,message)
+        await schedulePushNotification(chatName,message)
+
+    }
+
+    if(seen===false && notify===false ){
+
+    db.collection(auth.currentUser.email).doc(chatName).update({
+            notify:true
+        })
+    temp(chatName,message);
+    }
     return (
-       <ListItem key={id} onPress={()=>enterChat(id,chatName)}>
+       <ListItem key={id} onPress={()=>enterChat(id,chatName,chatImg)}>
+           <View>
            <Avatar
            rounded
            source={{
-               uri:"https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"
+               uri:chatImg
            }}
            />
+           {
+
+            seen?<></>:  <Badge
+            status="success"
+            containerStyle={{ position: 'absolute', top: -4, right: -4 }}
+        />
+           }
+       
+        </View>
            <ListItem.Content>
                <ListItem.Title style={{fontWeight:"800"}}>
                   {chatName}
                </ListItem.Title>
                <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-                   This is a test subtitle
+                   {message}
                </ListItem.Subtitle>
            </ListItem.Content>
        </ListItem>
