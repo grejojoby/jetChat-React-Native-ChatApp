@@ -38,6 +38,7 @@ const RegisterScreen = ({ navigation }) => {
                     photoURL: imageUrl === "" ? "https://robohash.org/" + email : imageUrl
                 })
                 db.collection("users").doc(email).set({
+                    displayName: name,
                     photoURL: imageUrl === "" ? "https://robohash.org/" + email : imageUrl
                 })
                 // console.log(authUser.user)

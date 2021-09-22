@@ -24,7 +24,7 @@ const ChatScreen = ({ navigation, route }) => {
                     source={{ uri: route.params.chatImg }}
                 />
                 <Text style={{ color: "white", marginLeft: 10, fontWeight: "700" }}>
-                    {route.params.chatName}
+                    {route.params.displayName}
                 </Text>
             </View>,
             // headerLeft:()=>(
@@ -69,6 +69,16 @@ const ChatScreen = ({ navigation, route }) => {
             notify: false
         })
 
+        await db.collection(auth.currentUser.email).doc(route.params.id).update({
+            timestamp: firebase.firestore.FieldValue.serverTimestamp() || null,
+            message: input,
+            displayName: auth.currentUser.displayName,
+            email: auth.currentUser.email,
+            photoURL: auth.currentUser.photoURL,
+            seen: true,
+            notify: false
+        })
+
         setInput("")
 
     }
@@ -80,9 +90,8 @@ const ChatScreen = ({ navigation, route }) => {
                     data: doc.data()
                 }))
             ))
-        // console.log(messages)
 
-        // return unsubscribe
+        return unsubscribe
     }, [route])
 
     useEffect(() => {

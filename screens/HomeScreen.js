@@ -25,53 +25,54 @@ const HomeScreen = ({ navigation }) => {
   const [chats, setChats] = useState([]);
   const [users, setUsers] = useState([]);
   const [usersD, setUsersD] = useState({});
+  const [usersDName, setUsersDName] = useState({});
 
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-  async function schedulePushNotification(username, msg) {
+  // const [expoPushToken, setExpoPushToken] = useState('');
+  // const [notification, setNotification] = useState(false);
+  // const notificationListener = useRef();
+  // const responseListener = useRef();
+  // async function schedulePushNotification(username, msg) {
 
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "You've got a new Message from " + username,
-        body: msg,
+  //   await Notifications.scheduleNotificationAsync({
+  //     content: {
+  //       title: "You've got a new Message from " + username,
+  //       body: msg,
 
-      }
+  //     }
 
-    });
-  }
+  //   });
+  // }
 
-  async function registerForPushNotificationsAsync() {
-    let token;
-    if (Constants.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
-    } else {
-      alert('Must use physical device for Push Notifications');
-    }
+  // async function registerForPushNotificationsAsync() {
+  //   let token;
+  //   if (Constants.isDevice) {
+  //     const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  //     let finalStatus = existingStatus;
+  //     if (existingStatus !== 'granted') {
+  //       const { status } = await Notifications.requestPermissionsAsync();
+  //       finalStatus = status;
+  //     }
+  //     if (finalStatus !== 'granted') {
+  //       alert('Failed to get push token for push notification!');
+  //       return;
+  //     }
+  //     token = (await Notifications.getExpoPushTokenAsync()).data;
+  //     console.log(token);
+  //   } else {
+  //     alert('Must use physical device for Push Notifications');
+  //   }
 
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
+  //   if (Platform.OS === 'android') {
+  //     Notifications.setNotificationChannelAsync('default', {
+  //       name: 'default',
+  //       importance: Notifications.AndroidImportance.MAX,
+  //       vibrationPattern: [0, 250, 250, 250],
+  //       lightColor: '#FF231F7C',
+  //     });
+  //   }
 
-    return token;
-  }
+  //   return token;
+  // }
 
   useEffect(() => {
     //   registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
@@ -131,10 +132,15 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     // console.log(users)
     var d = {}
+    var dName = {}
     for (var i = 0; i < users.length; i++) {
       d[users[i].id] = users[i].data.photoURL
+      dName[users[i].id] = users[i].data.displayName 
     }
+    // console.log(d)
+    // console.log(dName)
     setUsersD(d)
+    setUsersDName(dName)
   }, [users])
 
 
@@ -148,12 +154,8 @@ const HomeScreen = ({ navigation }) => {
       headerTitleAlign: 'center',
       headerLeft: () => (<View style={{ marginLeft: 0 }}>
         <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
-          <Avatar
-            rounded
-
-
+          <Avatar rounded
             source={{ uri: (auth?.currentUser?.photoURL) ? (auth?.currentUser?.photoURL) : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png" }}
-
           />
         </TouchableOpacity>
 
@@ -174,22 +176,27 @@ const HomeScreen = ({ navigation }) => {
       </View>)
     });
   }, [navigation])
-  const enterChat = (id, chatName, chatImg) => {
+  const enterChat = (id, chatName, chatImg, displayName) => {
     navigation.navigate("Chat", {
       id,
       chatName,
-      chatImg
+      chatImg,
+      displayName
     })
   }
   // console.log(users)
-
+  useEffect(() => {
+    // console.log(chats)
+    
+  }, [chats])
 
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
-        {chats.map(({ id, data: { chatName, message, seen, notify } }) => <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat}
-          message={message} seen={seen} notify={notify}
-          schedulePushNotification={schedulePushNotification}
+        {chats.map(({ id, data: { chatName, message, seen, notify, displayName } }) => <CustomListItem key={id} id={id}
+          chatName={chatName} enterChat={enterChat} displayName={usersDName[chatName] ? usersDName[chatName] : chatName}
+          message={message} seen={seen} notify={notify} lastName={displayName}
+          // schedulePushNotification={schedulePushNotification}
           chatImg={usersD[chatName] ? usersD[chatName] : "https://robohash.org/" + chatName} />
 
         )}
