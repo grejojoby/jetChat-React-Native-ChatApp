@@ -103,81 +103,42 @@ const ChatScreen = ({ navigation, route }) => {
     }, [messages])
     const scrollViewRef = useRef();
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <StatusBar style="light" />
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={styles.container}
-                keyboardVerticalOffset={90}
-            >
-                {/* onPress={Keyboard.dismiss()} */}
-                <TouchableWithoutFeedback  >
-                    <>
-                        <ScrollView
-                            ref={scrollViewRef}
-                            onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-                        >
-                            {messages.map(({ id, data }) => (
-                                data.email === auth.currentUser.email ?
-                                    (
-                                        <View key={id} style={styles.reciever}>
-                                            {/* <Avatar
-                                                rounded
-                                                size={30}
-                                                position="absolute"
-                                                containerStyle={{
-                                                    position: "absolute",
-                                                    bottom: -15,
-                                                    right: -5
-                                                }}
-                                                // bottom={-15}
-                                                // right={-5}
-                                                source={{
-                                                    uri: data.photoURL || "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"
-                                                }} /> */}
-                                            <Text style={styles.recieverText}>{data.message}</Text>
-                                        </View>
-                                    ) :
-                                    (
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={140} style={styles.container}>
+            <TouchableWithoutFeedback style={{display: 'flex'}}>
+                <>
+                    <ScrollView style={styles.chatView}
+                        ref={scrollViewRef}
+                        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+                    >
+                        {messages.map(({ id, data }) => (
+                            data.email === auth.currentUser.email ?
+                                (
+                                    <View key={id} style={styles.reciever}>
+                                        <Text style={styles.recieverText}>{data.message}</Text>
+                                    </View>
+                                ) :
+                                (
 
-                                        <View key={id} style={styles.sender}>
-                                            {/* <Avatar
-                                                rounded
-                                                size={30}
-                                                position="absolute"
-                                                containerStyle={{
-                                                    position: "absolute",
-                                                    bottom: -15,
-                                                    left: -5
-                                                }}
-                                                // bottom={-15}
-                                                // left={-5}
-                                                source={{
-                                                    uri: data.photoURL || "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png"
-                                                }} /> */}
-                                            <Text style={styles.senderText}>{data.message}</Text>
-                                            {/* <Text style={styles.senderName}>{data.displayName || "test"}</Text> */}
-                                        </View>
-                                    )
-                            ))}
-                        </ScrollView>
-                        <View style={styles.footer}>
-                            <TextInput placeholder="Signal Message"
-                                value={input}
-                                onChangeText={(text) => setInput(text)}
-                                style={styles.textInput}
-                                onSubmitEditing={sendMessage}
-                            />
-                            <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
-                                <Ionicons name="send" size={24} color="#2B68E6" />
-                            </TouchableOpacity>
-                        </View>
-                    </>
-                </TouchableWithoutFeedback>
-
-            </KeyboardAvoidingView>
-
-        </SafeAreaView>
+                                    <View key={id} style={styles.sender}>
+                                        <Text style={styles.senderText}>{data.message}</Text>
+                                    </View>
+                                )
+                        ))}
+                    </ScrollView>
+                    <View style={styles.footer}>
+                        <TextInput placeholder="Signal Message"
+                            value={input}
+                            onChangeText={(text) => setInput(text)}
+                            style={styles.textInput}
+                            onSubmitEditing={sendMessage}
+                        />
+                        <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
+                            <Ionicons name="send" size={24} color="#2B68E6" />
+                        </TouchableOpacity>
+                    </View>
+                </>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 }
 export default ChatScreen
@@ -189,18 +150,24 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         width: "100%",
-        padding: 15
+        padding: 15,
+        backgroundColor: "transparent"
     },
     textInput: {
         bottom: 0,
-        height: 40,
+        height: 50,
         flex: 1,
         marginRight: 15,
         backgroundColor: "#ECECEC",
-        padding: 10,
+        // borderWidth: 1,
+        padding: 15,
         color: "grey",
         borderRadius: 30,
 
+    },
+    chatView: {
+        flex: 1,
+        paddingTop: 10,
     },
     recieverText: {
         color: "black",
