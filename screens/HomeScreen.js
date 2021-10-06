@@ -1,7 +1,7 @@
 
 import React, { useEffect, useLayoutEffect, useState, useRef } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import { Avatar, FAB, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth, db } from '../firebase.js';
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons"
@@ -135,7 +135,7 @@ const HomeScreen = ({ navigation }) => {
     var dName = {}
     for (var i = 0; i < users.length; i++) {
       d[users[i].id] = users[i].data.photoURL
-      dName[users[i].id] = users[i].data.displayName 
+      dName[users[i].id] = users[i].data.displayName
     }
     // console.log(d)
     // console.log(dName)
@@ -153,7 +153,7 @@ const HomeScreen = ({ navigation }) => {
       headerTintColor: "white",
       headerTitleAlign: 'center',
       headerLeft: () => (<View style={{ marginLeft: 0 }}>
-        <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
+        <TouchableOpacity activeOpacity={0.5} style={{marginHorizontal: 20}} >
           <Avatar rounded
             source={{ uri: (auth?.currentUser?.photoURL) ? (auth?.currentUser?.photoURL) : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png" }}
           />
@@ -166,13 +166,13 @@ const HomeScreen = ({ navigation }) => {
         width: 60,
         marginRight: 5
       }}>
-        <TouchableOpacity activeOpacity={0.5}>
-          <AntDesign name="camerao" size={24} color="white" />
+        <TouchableOpacity activeOpacity={0.5} onPress={signOutUser} style={{marginHorizontal: 20}}>
+          <AntDesign name="logout" size={24} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("AddChat")}
+        {/* <TouchableOpacity onPress={() => navigation.navigate("AddChat")}
           activeOpacity={0.5} >
           <SimpleLineIcons name="pencil" size={24} color="white" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>)
     });
   }, [navigation])
@@ -187,12 +187,27 @@ const HomeScreen = ({ navigation }) => {
   // console.log(users)
   useEffect(() => {
     // console.log(chats)
-    
+
   }, [chats])
 
+  const [visible, setVisible] = React.useState(true);
+
   return (
+    
     <SafeAreaView>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate("AddChat")}
+        style={styles.touchableOpacityStyle}>
+        <AntDesign name="pluscircle" size={60} color="#2B3595" />
+      </TouchableOpacity>
+      {/* <FAB
+          visible={visible}
+          icon={{ name: 'add', color: 'white' }}
+          color="green"
+        /> */}
       <ScrollView style={styles.container}>
+        
         {chats.map(({ id, data: { chatName, message, seen, notify, displayName } }) => <CustomListItem key={id} id={id}
           chatName={chatName} enterChat={enterChat} displayName={usersDName[chatName] ? usersDName[chatName] : chatName}
           message={message} seen={seen} notify={notify} lastName={displayName}
@@ -211,6 +226,24 @@ export default HomeScreen
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-  }
+  },
+  touchableOpacityStyle: {
+    position: 'fixed',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 30,
+    bottom: 30,
+    zIndex: 100,
+    borderRadius: "100%",
+    color: "white"
+  },
+  floatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 50,
+    height: 50,
+    // backgroundColor:'black'
+  },
 
 })
