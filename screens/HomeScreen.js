@@ -152,8 +152,8 @@ const HomeScreen = ({ navigation }) => {
       headerTitleStyle: { color: "white" },
       headerTintColor: "white",
       headerTitleAlign: 'center',
-      headerLeft: () => (<View style={{ marginLeft: 0 }}>
-        <TouchableOpacity activeOpacity={0.5} style={{marginHorizontal: 20}} >
+      headerLeft: () => (<View style={{ marginHorizontal: 10 }}>
+        <TouchableOpacity activeOpacity={0.5} >
           <Avatar rounded
             source={{ uri: (auth?.currentUser?.photoURL) ? (auth?.currentUser?.photoURL) : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.png" }}
           />
@@ -163,10 +163,9 @@ const HomeScreen = ({ navigation }) => {
       headerRight: () => (<View style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        width: 60,
-        marginRight: 5
+        marginRight: 0
       }}>
-        <TouchableOpacity activeOpacity={0.5} onPress={signOutUser} style={{marginHorizontal: 20}}>
+        <TouchableOpacity activeOpacity={0.5} onPress={signOutUser} style={{paddingRight: 10, marginRight: 0}}>
           <AntDesign name="logout" size={24} color="white" />
         </TouchableOpacity>
         {/* <TouchableOpacity onPress={() => navigation.navigate("AddChat")}
@@ -194,7 +193,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeContainer}>
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => navigation.navigate("AddChat")}
@@ -224,25 +223,27 @@ const HomeScreen = ({ navigation }) => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
+  safeContainer: {
+  },
   container: {
     height: "100%",
+    width: "100%"
   },
   touchableOpacityStyle: {
-    position: 'fixed',
-    width: 50,
-    height: 50,
+    position: 'absolute',
+    width: 60,  
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    right: 30,
-    bottom: 30,
+    right: 40,
+    bottom: 40,
     zIndex: 100,
-    borderRadius: "100%",
     color: "white"
   },
   floatingButtonStyle: {
     resizeMode: 'contain',
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     // backgroundColor:'black'
   },
 

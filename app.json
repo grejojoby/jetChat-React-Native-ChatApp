@@ -4,7 +4,7 @@
     "slug": "joTok",
     "version": "2.0.0",
     "orientation": "portrait",
-    "icon": "./assets/jotokIcon.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/jotokIcon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.grejojoby.jotok"
