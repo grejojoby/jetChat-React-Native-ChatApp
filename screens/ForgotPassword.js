@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { auth } from '../firebase';
 // require('../assets/jotokIcon.png');
 
-const LoginScreen = ({ navigation }) => {
+const ForgotPassword = ({ navigation }) => {
 
     const theme = {
         colors: {
@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
     };
 
     const [email, setEmail] = useState('');
-    const [password, setPssword] = useState('');
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((authUser) => {
             if (authUser) {
@@ -30,9 +30,15 @@ const LoginScreen = ({ navigation }) => {
         })
         return unsubscribe;
     }, []);
-    const signIn = () => {
-        auth.signInWithEmailAndPassword(email, password)
-            .catch(error => alert(error.message))
+    const ForgotPasswordFunction = () => {
+        
+            auth.sendPasswordResetEmail(email)
+              .then(function (user) {
+                alert('Please check your email...')
+              }).catch(function (e) {
+                console.log(e)
+              })
+         
     }
 
     return (
@@ -50,31 +56,22 @@ const LoginScreen = ({ navigation }) => {
                     value={email}
                     onChangeText={(text) => setEmail(text)}
                 />
-                <Input placeholder="Password"
-                    secureTextEntry
-                    type="password"
-                    value={password}
-                    onChangeText={(text) => setPssword(text)}
-                    onSubmitEditing={signIn}
-                />
-                
+
             </View>
             <ThemeProvider theme={theme}>
-                <Button raised containerStyle={styles.buttonContainer} onPress={signIn} title="Login"/>
-                <Button containerStyle={styles.buttonSecContainer} onPress={() => navigation.navigate('Register')} type="outline" title="Register" />
-                <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}  style={{margin:20}}>
-                <Text style={{textDecorationLine: 'underline'}}>Forgot Password?</Text>
+                <Button raised containerStyle={styles.buttonContainer} onPress={ForgotPasswordFunction} title="Send Mail"/>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{margin:20}} >
+                <Text style={{textDecorationLine: 'underline'}}>Login</Text>
                  </TouchableOpacity>
 
             </ThemeProvider>
-     
             <View style={{ height: 20 }} />
         </KeyboardAvoidingView>
         </ScrollView>
     )
 }
 
-export default LoginScreen
+export default ForgotPassword
 
 const styles = StyleSheet.create({
     scrollContainer: {
