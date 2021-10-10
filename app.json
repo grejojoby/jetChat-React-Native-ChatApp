@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "joTok",
-    "slug": "joTok",
-    "version": "2.0.0",
+    "name": "JetChat",
+    "slug": "JetChat",
+    "version": "3.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.png",
+    "icon": "./assets/appstore.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splashJetChat.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,13 +21,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
+        "foregroundImage": "./assets/playstore.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.grejojoby.jotok"
+      "package": "com.grejojoby.JetChat"
     },
     "web": {
-      "favicon": "./assets/jotokIcon.png"
+      "favicon": "./assets/playstore.png"
     }
   }
 }
