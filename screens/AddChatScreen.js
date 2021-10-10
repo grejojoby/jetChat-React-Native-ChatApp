@@ -61,10 +61,17 @@ const AddChatScreen = ({ navigation }) => {
                     title="Search"
                 />
             </ThemeProvider>
+            <View style={styles.BelowContainer}>
+                <Image source={require('../assets/JetChatLogo.png')}
+                    style={styles.imageStyle} />
+                <Text h2 style={styles.AppTitle}>JetChat</Text>
+                <Text h5 style={styles.SubTitle}>Developed By</Text>
+                <Text h4 style={styles.SubTitle}>Grejo Joby</Text>
+                <Text h4 style={styles.SubTitle}>Hayden Cordeiro</Text>
+                <Text h4 style={styles.SubTitle}>Manasi Anantpurkar</Text>
 
-            <Image source={require('../assets/logo.png')}
-                style={styles.imageStyle}/>
-            <Text h2 style={styles.AppTitle}>JoTok</Text>
+            </View>
+
         </View>
     )
 }
@@ -75,18 +82,24 @@ const styles = StyleSheet.create({
         padding: 20,
         display: 'flex',
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     buttonContainer: {
-        // width: 200,
+        width: 300,
         marginTop: 10,
         backgroundColor: '#2B3595',
         color: 'white'
     },
+    BelowContainer: {
+        marginVertical: 100,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     imageStyle: {
-        height: 200,
-        width: 200,
-        margin: '20%'
+        width: 150,
+        height: 150,
     },
     AppTitle: {
         margin: 20,
@@ -95,8 +108,17 @@ const styles = StyleSheet.create({
         color: '#999',
         margin: '20%',
         marginTop: 5,
-        justifyContent:'center',
+        justifyContent: 'center',
         alignSelf: 'center'
-    }
+    },
+    SubTitle: {
+        margin: 5,
+        textAlign: 'center',
+        width: '100%',
+        color: '#999',
+        marginTop: 5,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
 
 })

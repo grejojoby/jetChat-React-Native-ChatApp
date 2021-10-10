@@ -39,8 +39,8 @@ const LoginScreen = ({ navigation }) => {
         <ScrollView style={styles.scrollContainer}>
         <KeyboardAvoidingView behavior='padding' style={styles.container} keyboardVerticalOffset={50}>
             <StatusBar style="light" />
-            <Image source={require('../assets/logo.png')}
-                style={{ width: 200, height: 200 }}
+            <Image source={require('../assets/large_jetchat.png')}
+                style={{ width: 256, height: 88, marginVertical: 50 }}
             />
 
             <View style={styles.inputContainer}>
