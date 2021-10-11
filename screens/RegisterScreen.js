@@ -50,7 +50,7 @@ const RegisterScreen = ({ navigation }) => {
             <KeyboardAvoidingView behavior="padding" style={styles.container} enabled keyboardVerticalOffset={50}>
                 <StatusBar style="light" />
                 <Text h3 style={{ marginBottom: 50 }}>
-                    Create JoTok Account
+                    Create JetChat Account
                 </Text>
                 <View style={styles.inputContainer}>
                     <Input
