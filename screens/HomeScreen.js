@@ -147,7 +147,7 @@ const HomeScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "joTok",
+      title: "JetChat",
       headerStyle: { backgroundColor: "#2B3595" },
       headerTitleStyle: { color: "white" },
       headerTintColor: "white",
