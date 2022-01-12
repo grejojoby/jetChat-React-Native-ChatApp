@@ -1,7 +1,7 @@
 # JetChat - Android Realtime Chat Application 
 
-<a href=''>
-<img alt='Available on Amazon App Store' src='https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/devportal2/res/images/amazon-appstore-badge-english-black.png' width="200"/></a>
+<a href='https://grejojoby.itch.io/jetchat'>
+<img alt='Available on Amazon itch.io' src='https://static.itch.io/images/badge-color.svg' width="200"/></a>
 
 ## Table of contents
 - [Demo](#demo)
