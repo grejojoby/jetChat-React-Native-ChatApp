@@ -1,0 +1,69 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\grejo\.node\corepack\yarn\1.22.15\bin\yarn.js install
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\Program Files (x86)\VMware\VMware Player\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files (x86)\ookla-speedtest;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\platform-tools;C:\Program Files\Java\jdk1.8.0_321\bin;C:\TDM-GCC-64\bin;C:\flutter_windows_2.10.4-stable\flutter\bin;C:\flutter\bin;C:\Users\grejo\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\grejo\AppData\Local\Programs\Python\Python39\;C:\Users\grejo\AppData\Local\Programs\Python\Launcher\;C:\Users\grejo\AppData\Local\Microsoft\WindowsApps;;C:\Users\grejo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\grejo\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  16.13.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@firebase/firestore/-/firestore-3.4.8.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Users\grejo\.node\corepack\yarn\1.22.15\lib\cli.js:141512:19)
+      at Object.onceWrapper (node:events:509:28)
+      at ClientRequest.emit (node:events:390:28)
+      at TLSSocket.emitRequestTimeout (node:_http_client:763:9)
+      at Object.onceWrapper (node:events:509:28)
+      at TLSSocket.emit (node:events:402:35)
+      at TLSSocket.Socket._onTimeout (node:net:501:8)
+      at listOnTimeout (node:internal/timers:557:17)
+      at processTimers (node:internal/timers:500:7)
+
+npm manifest: 
+  {
+    "homepage": "https://chat.hayden.co.in/",
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "deploy": "gh-pages -d web-build",
+      "predeploy": "expo build:web",
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "@react-navigation/native": "^6.0.2",
+      "@react-navigation/native-stack": "^6.1.0",
+      "expo": "^44.0.6",
+      "expo-cli": "^4.3.0",
+      "expo-notifications": "^0.14.1",
+      "expo-status-bar": "~1.0.4",
+      "firebase": "^9.6.11",
+      "global": "^4.4.0",
+      "react": "16.13.1",
+      "react-dom": "16.13.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+      "react-native-elements": "^3.4.2",
+      "react-native-safe-area-context": "3.2.0",
+      "react-native-screens": "~3.4.0",
+      "react-native-web": "^0.17.7"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.9.0",
+      "gh-pages": "^3.2.3"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
