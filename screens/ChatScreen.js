@@ -4,7 +4,7 @@ import { Avatar } from 'react-native-elements'
 import { AntDesign, SimpleLineIcons, Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import * as firebase from "firebase"
+import * as firebase from "firebase/app";
 import { auth, db } from '../firebase'
 
 const ChatScreen = ({ navigation, route }) => {
